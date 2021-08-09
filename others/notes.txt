@@ -1,0 +1,19 @@
+*logical structure of fortran programname
+1. start of program
+2. reserve memory for data
+IMPLICIT NONE 
+REAL :: var_i, var_o
+3. write prompt to display
+4. read input
+5. processing
+6. output
+7. end of program
+
+* general structure of a fortran program:
+program programname
+    !comment
+    print *, 'Print stuff' 
+end program programname
+* fortran syntax is not case sensitive
+* compile with custom exec name: gfortran filename.f -o customname.exe
+* execute compiled code: ./customname.exe
