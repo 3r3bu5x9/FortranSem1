@@ -1,14 +1,21 @@
 module MOD1
-    implicit none
-    save!?
-    integer, parameter NVAL = 5
-    real, dimension(NVAL) :: A, B
-    real :: X,Y
-contains
-    
+    real :: x
 end module MOD1
 
-program name
+subroutine SUB1(b)
+    use MOD1
     implicit none
-    !initialisations become available in the program
-end program name
+    real,intent(out) :: b
+    b = x**2
+end subroutine SUB1
+
+program ABC
+    use MOD1
+    implicit none
+    real :: y
+    write(*,*) "Enter x:"
+    read(*,*) x
+    call SUB1(y)
+    write(*,*) "x: ", x
+    write(*,*) "y: ", y
+end program ABC
