@@ -47,7 +47,6 @@ program LEASTSQFIT
     do I = 1, N1
         write(2,*) X(I), Y(I), Yest(I)
     end do
-    write(2,*)
-    write(2,*) "A(slope) = ", A1
-    write(2,*) "B(intercept) = ", B1
+    write(*,*) "A(slope) = ", A1
+    write(*,*) "B(intercept) = ", B1
 end program LEASTSQFIT

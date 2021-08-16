@@ -1,2 +1,1 @@
-plot sin(x)
-replot cos(x)
+plot sin(x)*cos(x)*2
