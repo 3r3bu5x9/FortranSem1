@@ -4,20 +4,15 @@ function FUNC(X)
     FUNC = cos(X)-X
 end function FUNC
 
-function DFUNC(X)
-    implicit none
-    real :: X, DFUNC
-    DFUNC = -sin(X)-1
-end function DFUNC
-
 program SECANT
     implicit none
-    real :: FUNC, DFUNC
-    real :: X0, X1, ERR
+    real :: FUNC
+    real :: X0, X1, X2, ERR
+    real :: DELX, DELFX
     integer :: N, COUNT
 
-    write(*,*) "Enter init guess:"
-    read(*,*) X0
+    write(*,*) "Enter init bounds:"
+    read(*,*) X0, X1
     write(*,*) "Enter max error:"
     read(*,*) ERR
     write(*,*) "Enter max number of iterations:"
@@ -26,21 +21,24 @@ program SECANT
     COUNT = 0
     do 
         COUNT = COUNT+1
-        if (abs(DFUNC(X0)) < ERR) then
-            write(*,*) "Derivative too small at", X0
+        DELX = X1-X0
+        DELFX = FUNC(X1)-FUNC(X0)
+        if (abs(DELFX) < ERR) then
+            write(*,*) "Change in function too small at", X0
             stop
         end if
-        X1 = X0 - (FUNC(X0)/DFUNC(X0))
-        if(abs(FUNC(X1)) < ERR) exit
+        X2 = X1 - FUNC(X1)*(DELX/DELFX)
+        if(abs(FUNC(X2)) < ERR) exit
         if (COUNT > N) then
             write(*,*) "Exceeded max iterations!"
             stop
         end if
         X0 = X1
+        X1 = X2
     end do
 
-    write(*,*) "The root is(X1): ", X1
-    write(*,*) "Value at root(F(X1)): ", FUNC(X1)
+    write(*,*) "The root is(X1): ", X2
+    write(*,*) "Value at root(F(X1)): ", FUNC(X2)
     write(*,*) "Number of iterations: ", COUNT
 
 end program SECANT

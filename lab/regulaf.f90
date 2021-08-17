@@ -1,13 +1,16 @@
-!Debasis Buxy
-!N20021084
+function FUNC(X)
+    implicit none
+    real :: X, FUNC
+    FUNC = cos(X)-X
+end function FUNC
+
 program REGULAF
     implicit none
-    real :: FUNC, X
+    real :: FUNC
     real :: A, B !bounds
     real :: ERR, C
-    FUNC(X) = cos(X)-X
 
-    write(*,*) "Enter lower and upper bounds:"
+    write(*,*) "Enter lower and upper bound:"
     read(*,*) A, B
     if (FUNC(A)*FUNC(B) > 0.0) then
         write(*,*) "No roots in this interval!"
@@ -17,12 +20,13 @@ program REGULAF
     read(*,*) ERR
 
     do
-        C = (A+B)/2.0
+        C = (A*FUNC(B)-B*FUNC(A))/(FUNC(B)-FUNC(A))
         if (FUNC(A)*FUNC(C) < 0.0) then
             B = C
         else
             A = C
         end if
+        if (abs(FUNC(C)) < ERR) exit
         if (abs(A-B) < ERR) exit
     end do
 
