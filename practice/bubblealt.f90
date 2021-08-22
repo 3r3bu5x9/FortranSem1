@@ -1,20 +1,21 @@
-program TEST
+program BUBBLEALT 
     implicit none
-    integer :: A(10), I, J, N, M, TEMP
-    write(*,*) "Enter N"
+    integer :: A(10)
+    integer :: I, J, TEMP, N
+    write(*,*) "Enter n"
     read(*,*) N
-    write(*,*) "Enter nums"
+    write(*,*) "Enter numbers"
     read(*,*) (A(I), I=1,N)
-    M = N
-    do I = 1, M-1
-        do J = 1, M-1
-            if(A(J)>A(J+1)) then
+
+    do I = 1, N
+        do J = 1, N-I
+            if (A(J) > A(J+1)) then
                 TEMP = A(J)
                 A(J) = A(J+1)
                 A(J+1) = TEMP
             end if
-        end do
-        M = M-1
+        end do    
     end do
+
     write(*,*) (A(I), I=1,N)
-end program TEST
+end program BUBBLEALT 

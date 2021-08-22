@@ -1,1 +1,1 @@
-plot sin(x)*cos(x)*2
+plot "outtrapezoid.txt" using 2:4 with linespoint

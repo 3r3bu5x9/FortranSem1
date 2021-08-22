@@ -12,12 +12,15 @@ No. of symbols| Type | Values |
 ### **Structure of a Fortran statement**
 
 - There are two kinds of statements:
-  - _Executable statements_
-  - _Nonexecutable statements_
+  - _Executable statements_ - statements which result in machine/processor instruction, ex- READ, WRITE, STOP, GOTO, IF, ELSE, DO, etc
+  - _Nonexecutable statements_ - donot result in machine instruction, ex- FORMAT, TYPE, END, COMMON, DIMENSION, FUNCTION, etc.
+  - `STOP` is an _executable_ statement as it stops the computer from executing the next machine-language instruction/ stops running the program
+  - `END` is a _non executable_ statement as it tells the compiler that this is the end of the program and there are no more FORTRAN statements to be transferred to machine-language instruction(compiled)
 - 132 character limit per line
 - Lines may be joined using the ampersand(&) character
 - 256 lines limit of a statement
 - _Statement lables_: optional numbers(1-99,999) at the beginning of a statement that has to be unique to each line 
+- Variable name 63 characters long
 - Comment using `!` at the beginning of any statement
 
 ### **Structure of a Fortran program**
@@ -38,12 +41,12 @@ PROGRAM program_name
     WRITE (*,100,advance='no') 'New var = ', var
     100 FORMAT(i1)
     ! Termination
-    STOP ! optional
+    STOP "message" ! optional/auto generated
 END PROGRAM program_name
 ```
 - `advance='no'` means that the write statement will not advance to the next record (next line) after finishing the writing
 
-### Data types
+### Data types(intrinsic)
 - `INTEGER`
   - declaration: `INTEGER :: var` 
   - no decimal points or commas
@@ -54,12 +57,23 @@ END PROGRAM program_name
   - embedded commas are illegal
   - decimal point required in mantissa
   - decimal point not allowed in exponent
+  - _precision_ no of bits allocated to the mantissa
+  - _range_ no of bits allocated to the exponent
 - `CHARACTER`
   - declaration: `CHARACTER(15) :: var` here 15 is the length of the string `var`
   - consists of strings of alphanumeric characters
   - is a string of characters enclosed in single (') or double (") quotes
   - The minimum number of characters in a string is 0
   - characters between the two single or double quotes are said to be in a character context
+- `LOGICAL`
+  - declaration: `LOGICAL :: var`
+  - can hold `TRUE` or `FALSE`
+
+### Variable names
+- names starting with i,j,k,l,m,n are assumed to be `INTEGER`
+-  A variable name must start with an letter. After that, the rest of the name can contain only letters (a--z), digits (0--9) or underscore character _ (no blanks!) 
+-  A variable name can be no longer than 31 characters.
+- declarations take place before the first executable statement
 
 ### Constants
 `type, PARAMETER :: var = val` makes var immutable
@@ -67,46 +81,16 @@ END PROGRAM program_name
 ### Hierarchy of arithmetic operations
 _Parenthesis_(L2R) -> _Exponentials_(R2L) -> _Multiplications_ and _divisions_(L2R) -> _Additions_ and _subtractions_(L2R)
 
-### Type conversion functions
+### Relational operators
+- `<` ,`>` ,`==` ,`/=` ,`<=` , `=>`
+- operands are variables(numerical or character)
 
-Function name | Argument type | Result type | Comments
----------|----------|----------|---------
- `INT(X)` | `REAL` | `INTEGER` | Integer part of x (x is truncated)
- `NINT(X)` | `REAL` | `INTEGER` | Nearest integer to x (x is rounded)
- `CEILING(X)` | `REAL` | `INTEGER` | Nearest integer above or equal to the value of x
- `FLOOR(X)` | `REAL` | `INTEGER` | Nearest integer below or equal to the value of x
- `REAL(I)` | `INTEGER` | `REAL` | Converts integer value to real
+### Combinational logic operators
+- `.AND.`, `.OR.`, `.EQV.`, `.NEQV.` , `.NOT.`
+- operands are logical expressions
 
-### **Some common intrinsic functions**
-
- | Function name and arguments | Function value | Argument type | Result type | Comments                                                                |
-| --------------------------- | -------------- | ------------- | ----------- | ----------------------------------------------------------------------- |
-| `SQRT(X)`     | sqrt(x)    | `REAL`          | `REAL`    | Square root of x for X > 0                                                |
-| `ABS(X)`      |            | `REAL`/`INTEGER`  | \*      | Absolute value of x                                                     |
-| `ACHAR(I)`    |            | `INTEGER`       | `CHAR(1)` | Returns the character at position I in the ASCII collating sequence     |
-| `SIN(X)`      | sin(x)     | `REAL`          | `REAL`    | Sine of X (x must be in radians)                                        |
-| `SIND(X)`     | sin(x)     | `REAL`          | `REAL`    | Sine of X (x must be in degrees)                                        |
-| `COS(X)`      | cos(x)     | `REAL`          | `REAL`    | Cosine of X (x must be in radians)                                      |
-| `COSD(X)`     | cos(x)     | `REAL`          | `REAL`    | Cosine of x (x must be in degrees)                                      |
-| `TAN(X)`      | tan(x)     | `REAL`          | `REAL`    | Tangent of x (x must be in radians)                                     |
-| `TAND(X)`     | tan(x)     | `REAL`          | `REAL`    | Tangent of x (x must be in degrees)                                     |
-| `EXP(X)`      | exp(x)     | `REAL`          | `REAL`    | e raised to the xth Power                                               |
-| `LOG(X)`      | ln(x)      | `REAL`          | `REAL`    | Natural logarithm of x for r > 0                                        |
-| `LOG10(X)`    | log(x)     | `REAL`          | `REAL`    | Base-10 logarithm of X for x > 0                                        |
-| `IACHAR(C)`   |            | `CHAR(1)`       | `INTEGER` | Returns the position of the character C in the ASCII collating sequence |
-| `MOD(A,B)`    |            | `REAL`/`INTEGER`  |         | Remainder or Modulo Function                                            |
-| `MAX(A.B)`    |            | `REAL`/`INTEGER`  |         | Picks the larger of a and b                                             |
-| `MIN(A.B)`    |            | `REAL`/`INTEGER`  | \*      | Picks the smaller of a and b                                            |
-| `ASIN(X)`     | sin-1(x)   | `REAL`          | `REAL`    | Inverse sine of x for –1 ≤ x ≤ 1 (results in radians)                     |
-| `ASIND(X)`    | sin-1(x)   | `REAL`          | `REAL`    | Inverse sine of x for –1 ≤ x ≤ 1 (results in degrees)                         |
-| `ACOS(X)`     | cos-1(x)   | `REAL`          | `REAL`    | Inverse cosine of x for –1 ≤ x ≤ 1 (results in radians)                                              |
-| `ACOSD(X)`    | cos-1(x)   | `REAL`          | `REAL`    | Inverse cosine of x for –1 ≤ x ≤ 1 (results in degrees)                                               |
-| `ATAN(X)`     | tan-1(x)   | `REAL`          | `REAL`    | Inverse tangent of x (results in radians in the range − π/2 ≤ x ≤ π/2)                   |
-| `ATAND(X)`    | tan-1(x)   | `REAL`          | `REAL`    | Inverse tangent of x (results in radians in the range − 90 ≤ x ≤ 90)                   |
-| `ATAN2(Y/X)`  | tan-1(y/x) | `REAL`          | `REAL`    | Four quadrant inverse tangent of x (results in radians in the range −π ≤ x ≤ π)   |
-| `ATAN2D(Y.X)` | tan-1(y/x) | `REAL`          | `REAL`    | Four quadrant inverse tangent of x (results in radians in the range −180 ≤ x ≤ 180)   |
-
-\* = Result is of the same type as the input argument(s)
+### Hierarchy of operations
+arithmetic operations -> relational operations(L2R) -> `.NOT.` -> `.AND.` -> `.OR.` -> `.EQV.` and `.NEQV.` (all L2R)
 
 ### else-if
 ```
@@ -139,11 +123,35 @@ end if
   - `N2` is the ending value
   - `N3` is the increment, if not specified then default increment is +1
 
+### do while
+  ```
+  do while(logical_expr)
+    ...
+    ...
+    ...
+  end do
+  ```
+
+### CYCLE and EXIT
+- `CYCLE` when put in a loop transfers control to the beginning of the loop
+- `EXIT` stops execution of the loop and transfers control to the first aexecutable statement after the loop
+
+### string manipulation
+  ```
+  character(len=6) :: str1, str2, str
+  str = str1(1:4) // str2(5:6)
+  ```
+- `str(initIndex, endIndex)` forms the string with all the characters from init to end index
+- `//` concatenates strings
+- character strings can be compared to character strings
+- character strings cannot be compared to numbers
+
 ## Array
 - variant 1
   ```
   integer :: SIZE = 100
   type, dimension(SIZE) :: A
+  A = [1.,2.,3.,4.,5.,6.,7.,8.,9.,10.]
   ```
   - `SIZE` is the size of the array
 - variant 2
@@ -152,6 +160,10 @@ end if
   type, dimension(UPPER:LOWER) :: B
   ```
   - `UPPER` and `LOWER` defines the range of values the index can take and also defines length of array
+- variant 3
+  ```
+  type :: A(100)
+  ```
   
 ## I/O
 - **Formats** are used to specify the exact manner in which variables are to be printed out by a program. In general, a format can specify both the horizontal and the vertical position of the variables on the paper, and also the number of significant digits to be printed out.
@@ -223,9 +235,43 @@ The seven extra characters required are used as follows: 1 for the sign of the m
   - **Repeating Groups of Format Descriptors**
     - `FORMAT(n(...))`
     - n can be integer or asterisk, use asterisks to repeat format indefinitely till data runs out
+  - **Vertical positionong - / descriptor**
+    -  slash (/) descriptor causes the current output buffer to be sent to the printer, and a
+new output buffer to be started
 
 ## **Reading from a file**
-- `open (unit=1, file="xyz.txt")`
+- `open (unit, file, status, action, iostat, iomsg)`
+ 1. A UNIT= clause indicating the i/o unit number to associate with this file. This clause has the form,
+  UNIT= int_expr
+  where int_expr can be a nonnegative integer value.
+  2. A FILE= clause specifying the name of the file   to be opened. This clause has the form,
+  FILE= char_expr
+  where char_expr is a character value containing   name of the file to be opened.
+  3. A STATUS= clause specifying the status of the  file to be opened. This clause has the
+  form,
+  STATUS= char_expr
+  where char_expr is one of the following: 'OLD',   'NEW', 'REPLACE', 'SCRATCH',
+  or 'UNKNOWN'.
+  4. An ACTION= clause specifying whether a file is   to be opened for reading only, for
+  writing only, or for both reading and writing.  This clause has the form,
+  ACTION= char_expr
+  where char_expr is one of the following: 'READ',  'WRITE', or 'READWRITE'. If
+  no action is specified, the file is opened for  both reading and writing.
+  5. An IOSTAT= clause specifying the name of an  integer variable in which the status
+  of the open operation can be returned. This   clause has the form,
+  IOSTAT= int_var
+  where int_var is an integer variable. If the OPEN   statement is successful, a 0 will
+  be returned in the integer variable. If it is not   successful, a positive number
+  corresponding to a system error message will be   returned in the variable. The
+  system error messages vary from processor to  processor, but a zero always means
+  success.
+  6. An IOMSG= clause specifying the name of a  character variable that will contain a
+  message if an error occurs. This clause has the  form,
+  IOMSG= chart_var
+  where char_var is a character variable. If the  OPEN statement is successful, the
+  contents of the character variable will be  unchanged. If it is not successful, a
+  descriptive error message will be returned in   this string.
+- `close 1`, closes a file prviously opened, optional
 - `read (1,*)`, 1 is the file identifier
 - creates file object for use in the program (creates file in dir or opens it)
 - unit has to an integer
@@ -262,5 +308,54 @@ The seven extra characters required are used as follows: 1 for the sign of the m
      ```function FUNC1(<argument list>)```
      - **Arithmetic stament function**
      - 
-     
-  
+
+
+### Some common character intrinsic functions
+Function name | Argument type | Result type | Comments
+|-----|-----|-----|-----    
+| `ACHAR(ival)`    | `INT`  | `CHAR` | Returns the character corresponding to ival in the ASCII collating sequence. 
+| `IACHAR(char)`   | `CHAR` | `INT`  | Returns the integer corresponding to char in the ASCII collating sequence.   |   |
+| `LEN(strl)`      | `CHAR` | `INT`  | Returns length of strl in characters.                                        |   |
+| `LEN_TRIM(str1)` | `CHAR` | `INT`  | Returns length of strl, excluding any trailing blanks.                       |   |
+| `TRIM(str1)`     | `CHAR` | `CHAR` | Returns strl with trailing blanks removed.                                   |   |
+    
+### Type conversion functions
+
+Function name | Argument type | Result type | Comments
+---------|----------|----------|---------
+ `INT(X)` | `REAL` | `INTEGER` | Integer part of x (x is truncated)
+ `NINT(X)` | `REAL` | `INTEGER` | Nearest integer to x (x is rounded)
+ `CEILING(X)` | `REAL` | `INTEGER` | Nearest integer above or equal to the value of x
+ `FLOOR(X)` | `REAL` | `INTEGER` | Nearest integer below or equal to the value of x
+ `REAL(I)` | `INTEGER` | `REAL` | Converts integer value to real
+
+### **Some common intrinsic functions**
+
+ | Function name and arguments | Function value | Argument type | Result type | Comments                                                                |
+| --------------------------- | -------------- | ------------- | ----------- | ----------------------------------------------------------------------- |
+| `SQRT(X)`     | sqrt(x)    | `REAL`          | `REAL`    | Square root of x for X > 0                                                |
+| `ABS(X)`      |            | `REAL`/`INTEGER`  | \*      | Absolute value of x                                                     |
+| `ACHAR(I)`    |            | `INTEGER`       | `CHAR(1)` | Returns the character at position I in the ASCII collating sequence     |
+| `SIN(X)`      | sin(x)     | `REAL`          | `REAL`    | Sine of X (x must be in radians)                                        |
+| `SIND(X)`     | sin(x)     | `REAL`          | `REAL`    | Sine of X (x must be in degrees)                                        |
+| `COS(X)`      | cos(x)     | `REAL`          | `REAL`    | Cosine of X (x must be in radians)                                      |
+| `COSD(X)`     | cos(x)     | `REAL`          | `REAL`    | Cosine of x (x must be in degrees)                                      |
+| `TAN(X)`      | tan(x)     | `REAL`          | `REAL`    | Tangent of x (x must be in radians)                                     |
+| `TAND(X)`     | tan(x)     | `REAL`          | `REAL`    | Tangent of x (x must be in degrees)                                     |
+| `EXP(X)`      | exp(x)     | `REAL`          | `REAL`    | e raised to the xth Power                                               |
+| `LOG(X)`      | ln(x)      | `REAL`          | `REAL`    | Natural logarithm of x for r > 0                                        |
+| `LOG10(X)`    | log(x)     | `REAL`          | `REAL`    | Base-10 logarithm of X for x > 0                                        |
+| `IACHAR(C)`   |            | `CHAR(1)`       | `INTEGER` | Returns the position of the character C in the ASCII collating sequence |
+| `MOD(A,B)`    |            | `REAL`/`INTEGER`  |         | Remainder or Modulo Function                                            |
+| `MAX(A.B)`    |            | `REAL`/`INTEGER`  |         | Picks the larger of a and b                                             |
+| `MIN(A.B)`    |            | `REAL`/`INTEGER`  | \*      | Picks the smaller of a and b                                            |
+| `ASIN(X)`     | sin-1(x)   | `REAL`          | `REAL`    | Inverse sine of x for –1 ≤ x ≤ 1 (results in radians)                     |
+| `ASIND(X)`    | sin-1(x)   | `REAL`          | `REAL`    | Inverse sine of x for –1 ≤ x ≤ 1 (results in degrees)                         |
+| `ACOS(X)`     | cos-1(x)   | `REAL`          | `REAL`    | Inverse cosine of x for –1 ≤ x ≤ 1 (results in radians)                                              |
+| `ACOSD(X)`    | cos-1(x)   | `REAL`          | `REAL`    | Inverse cosine of x for –1 ≤ x ≤ 1 (results in degrees)                                               |
+| `ATAN(X)`     | tan-1(x)   | `REAL`          | `REAL`    | Inverse tangent of x (results in radians in the range − π/2 ≤ x ≤ π/2)                   |
+| `ATAND(X)`    | tan-1(x)   | `REAL`          | `REAL`    | Inverse tangent of x (results in radians in the range − 90 ≤ x ≤ 90)                   |
+| `ATAN2(Y/X)`  | tan-1(y/x) | `REAL`          | `REAL`    | Four quadrant inverse tangent of x (results in radians in the range −π ≤ x ≤ π)   |
+| `ATAN2D(Y.X)` | tan-1(y/x) | `REAL`          | `REAL`    | Four quadrant inverse tangent of x (results in radians in the range −180 ≤ x ≤ 180)   |
+
+\* = Result is of the same type as the input argument(s)
