@@ -1,0 +1,1 @@
+plot "eulerout.txt" using 1:2, exp(x) with lines
