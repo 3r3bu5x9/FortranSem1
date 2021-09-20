@@ -149,7 +149,9 @@ program FINITEWELL
     real :: WIDTH = 1 !in angstrom
     real :: HEIGHT = 5 !in eV
 
-    open(unit=1, file="wellout.txt")
+    open(unit=1, file="wellout1.txt")
+    open(unit=2, file="wellout2.txt")
+    open(unit=3, file="wellout3.txt")
 
     A = WIDTH*C1 !in au
     V0 = HEIGHT*C2 !in hartree
@@ -177,12 +179,12 @@ program FINITEWELL
     end do
     do
         if (X > A) exit
-        write(1,*) X, (D*cos(BETA*X))
+        write(2,*) X, (D*cos(BETA*X))
         X = X+delX
     end do
     do
         if (X > 10*A) exit
-        write(1,*) X, (C*exp(-1*ALPHA*X))
+        write(3,*) X, (C*exp(-1*ALPHA*X))
         X = X+delX
     end do
 

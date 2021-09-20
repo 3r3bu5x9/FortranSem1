@@ -33,6 +33,7 @@ program INTERPOLATION
     integer :: N1, I
 
     open(unit=1,file="lagrangein.txt")
+    open(unit=2,file="lagrangeout.txt")
     read(1,*) N1
     read(1,*) (X(I), Y(I), I=1,N1)
     write(*,*) "Enter the value X:"
@@ -40,4 +41,5 @@ program INTERPOLATION
 
     call SUBLI(N1, X1, Y1)
     write(*,*) "The value at X is:", Y1
+    write(2,*) X1, Y1
 end program INTERPOLATION

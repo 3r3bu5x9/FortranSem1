@@ -12,16 +12,16 @@ program QUADROOT
     D = B**2 - 4.0*A*C
     if (abs(D) < 1.E-4) then
         X1 = -B/(2.0*A)
-        write(*,*) "Roots: ", X1, X1
+        write(*,*) "Roots are equal: ", X1, X1
     else if (D > 0) then
         X1 = (-B+sqrt(D))/(2.0*A)
         X2 = (-B-sqrt(D))/(2.0*A)
-        write(*,*) "Roots: ", X1, X2
+        write(*,*) "Roots are unique: ", X1, X2
     else 
         ReX = -B/(2.0*A)
         ImX1 = sqrt(-D)/(2.0*A)
         ImX2 = -sqrt(-D)/(2.0*A)
-        write(*,*) "Roots: "
+        write(*,*) "Roots are imaginary: "
         write(*,*) "(", ReX, ",", ImX1, ")"
         write(*,*) "(", ReX, ",", ImX2, ")"
     end if

@@ -10,10 +10,10 @@ program EULER
     real :: H, X0, Y0, X1, Y1
     integer :: I, N
     open(unit=1, file="eulerout.txt")
-    H = 0.05
+    H = 0.1
     X0 = 0.0
     Y0 = 1.0
-    N = 20
+    N = 40
     write(1,*) X0, Y0
     do I = 1, N
         Y1 = Y0 + H*FUNC(X0,Y0)
